@@ -1,0 +1,10 @@
+1.获取最新版本
+git fetch --all   
+git remote show
+git reset --hard origin/master
+
+2.将本地最新版本上传到远程
+git add .               
+git commit -m "说明" 
+git remote show #(git remote add laoqi git@github.com:lilyef2000/study_laoqi.git)
+git push -u laoqi master
