@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """mysite URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -20,6 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^blog/',include('blog.urls',namespace='blog',app_name='blog')),
     url(r'^account/',include('account.urls',namespace='account',app_name='account')),
-    url(r'^pwd_reset/',include('password_reset.urls')),
-
+    url(r'^pwd_reset/',include('password_reset.urls')), 
+    # 书上这里是url(r'^pwd_reset/',include('password_reset.urls',namespace='pwd_reset',app_name='pwd_reset')),
+    # ./templates/registration/login.html中，使用pwd_reset:password_reset_recover会报错
 ]
