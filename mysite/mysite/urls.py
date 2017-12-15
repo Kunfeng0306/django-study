@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^pwd_reset/',include('password_reset.urls')), 
     # 书上这里是url(r'^pwd_reset/',include('password_reset.urls',namespace='pwd_reset',app_name='pwd_reset')),
     # ./templates/registration/login.html中，使用pwd_reset:password_reset_recover会报错
+    url(r'^course/', include('course.urls', namespace='course', app_name='course')),
+    
 ]
