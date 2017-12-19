@@ -50,7 +50,9 @@
         </form>
         </div>
         <div class="col-md-6">
-            <p>picture</p>
+            {% if userinfo.photo %}
+                <img src="{{ userinfo.photo | striptags }}" class="img-circle" id="my_photo" name="user_face">
+            {% endif %}
         </div>
     </div>
 
