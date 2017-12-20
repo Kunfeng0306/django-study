@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from .models import ArticleColumn,ArticlePost, ArticleTag
 from .forms import ArticleColumnForm,ArticlePostForm
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 # Create your views here.
 @login_required(login_url='/account/login/')
 @csrf_exempt 
@@ -43,6 +45,7 @@ def rename_article_column(request):
         return HttpResponse("0")
         
 login_required(login_url='/account/login')
+
 @require_POST
 @csrf_exempt
 def del_article_column(request):
@@ -80,8 +83,21 @@ def article_post(request):
 
 @login_required(login_url='/account/login')
 def article_list(request):
-    articles = ArticlePost.objects.filter(author=request.user) 
-    return render(request, "article/column/article_list.html", {"articles":articles})
+    #articles = ArticlePost.objects.filter(author=request.user) 
+    #return render(request, "article/column/article_list.html", {"articles":articles})
+    articles_list = ArticlePost.objects.filter(author=request.user)
+    paginator = Paginator(articles_list, 6)
+    page = request.GET.get('page')   
+    try:
+        current_page = paginator.page(page)    
+        articles = current_page.object_list    
+    except PageNotAnInteger:    
+        current_page = paginator.page(1)
+        articles = current_page.object_list
+    except EmptyPage:    
+        current_page = paginator.page(paginator.num_pages)    
+        articles = current_page.object_list
+    return render(request, "article/column/article_list.html", {"articles":articles, "page": current_page})
     
 @login_required(login_url='/account/login')
 def article_detail(request, id, slug):
@@ -109,6 +125,15 @@ def redit_article(request, article_id):
         this_article_form = ArticlePostForm(initial={"title":article.title})
         this_article_column = article.column
         return render(request, "article/column/redit_article.html", {"article":article, "article_columns":article_columns, "this_article_column":this_article_column, "this_article_form":this_article_form})
-        
+    else:
+        redit_article = ArticlePost.objects.get(id=article_id)
+        try:
+            redit_article.column = request.user.article_column.get(id=request.POST['column_id'])
+            redit_article.title = request.POST['title']
+            redit_article.body = request.POST['body']
+            redit_article.save()
+            return HttpResponse("1")
+        except:
+            return HttpResponse("2")
 
 
