@@ -49,7 +49,8 @@ function publish_article(){
         data: {"title":title, "body":body, "column_id":column_id},
         success: function(e){
             if(e=="1"){
-        	    layer.msg("successful");
+                layer.msg("successful");
+                location.href = "{% url 'article:article_list' %}";
             }else if(e=="2"){
         	    layer.msg("sorry.") ;
             }else{
