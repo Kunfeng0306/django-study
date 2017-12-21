@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'password_reset',
     'course',
     'article',
+    'image',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -136,8 +138,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-MEDIA_URL = '/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
